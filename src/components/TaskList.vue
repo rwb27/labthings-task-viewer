@@ -1,12 +1,12 @@
 <template>
     <div class="tasklist-container">
-        <div class="tasklist uk-list">
+        <ul class="tasklist uk-list uk-list-divider">
             <TaskView
                 v-for="task in sortedTasks"
                 :task="task"
                 :key="task.id"
                 />
-        </div>
+        </ul>
     </div>
 </template>
 
@@ -22,11 +22,13 @@ export default {
     data: function() {
         return {
             tasks: [],
-            maximumNumberOfItems: 5
+            refreshIntervalReference: null,
         }
     },
     props: {
-        src: {type: String}
+        src: {type: String},
+        maximumNumberOfItems: {type: Number, default: 5},
+        refreshInterval: {type: Number, default: 500},
     },
     computed: {
         sortedTasks: function() {
@@ -34,20 +36,28 @@ export default {
             return stasks.slice(Math.max(stasks.length - this.maximumNumberOfItems, 0))
         }
     },
+    watch: {
+        refreshInterval: function() { this.setRefreshInterval()},
+        src: function() { this.refreshTasks()},
+    },
     methods: {
         refreshTasks(){
             // Update the `tasks` data element from our source URL
-            axios.get(this.src)
+            if(this.src) axios.get(this.src)
             .then(response => {
                 this.tasks = response.data
             })  // TODO: make sure errors get handled??
+        },
+        setRefreshInterval(){
+            if(this.refreshIntervalReference) clearInterval(this.refreshIntervalReference)
+            this.refreshIntervalReference = setInterval(function () {
+                this.refreshTasks();
+            }.bind(this), this.refreshInterval); 
         }
     },
     created() {
         this.refreshTasks()
-        setInterval(function () {
-            this.refreshTasks();
-        }.bind(this), 500); 
+        this.setRefreshInterval()
     }
 }
 </script>

@@ -14,7 +14,8 @@
     "less-loader": "^6.1.1",
     "material-design-icons": "^3.0.1",
     "uikit": "^3.5.3",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-json-tree-view": "^2.1.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

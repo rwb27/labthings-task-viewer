@@ -1,11 +1,13 @@
 <template>
-    <li class="logline uk-margin-left" :class="{'expanded': expanded, 'oneline': !expanded}" >
+    <li class="logline uk-margin-left" 
+        :class="{'expanded': expanded, 'oneline': !expanded}"
+        @click="expanded = !expanded" >
         <i  class="material-icons text-height-icons" 
             :uk-tooltip="entry.levelname" 
             :title="entry.levelname">
                 {{levelIcon}}
         </i>
-        <i class="material-icons text-height-icons uk-float-right" @click="expanded = !expanded">
+        <i class="material-icons text-height-icons uk-float-right">
             {{expanded ? "unfold_less" : "unfold_more"}}
         </i>
         <span class="message">
@@ -47,15 +49,12 @@ export default {
 <style scoped>
 .logline {}
 .oneline {
+    white-space: nowrap;
     overflow: hidden;
-    height: 1.6em;
+    text-overflow: ellipsis;
 }
 .expanded{
     height: auto;
-}
-.oneline .message{
-    display: inline;
-    
 }
 .expanded .message{
     white-space: pre-wrap;

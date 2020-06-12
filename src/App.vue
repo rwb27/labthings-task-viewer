@@ -1,8 +1,31 @@
 <template>
   <div id="app">
-    <label>Microscope Address:</label><input type="text" v-model="microscopeURL" placeholder="http://microscope.local:5000/" />
-    <button @click="refreshTasks">Refresh</button>
-    <TaskList :src="tasksEndpointURL" ref="taskList" />
+    <form class="controls uk-form-horizontal">
+      <div>
+        <label class="uk-form-label">Microscope Address:</label>
+        <div class="uk-form-controls">
+          <input type="text" class="uk-input" v-model="microscopeURL" placeholder="http://microscope.local:5000/" />
+        </div>
+      </div>
+      <div>
+        <label class="uk-form-label">Refresh Interval</label>
+        <div class="uk-form-controls">
+          <select class="uk-select" v-model="refreshIntervalString">
+              <option value="500">0.5 s</option>
+              <option value="1000">1 s</option>
+              <option value="10000">10 s</option>
+              <option value="60000">1 min</option>
+          </select>
+        </div>
+        <button class="uk-button" @click.stop.prevent="refreshTasks">Refresh</button>
+      </div>
+    </form>
+
+    <TaskList 
+      :src="tasksEndpointURL" 
+      :refreshInterval="refreshInterval"
+      :maximumNumberOfItems="maxTasks"
+      ref="taskList" />
   </div>
 </template>
 
@@ -12,16 +35,23 @@ import TaskList from './components/TaskList.vue'
 export default {
   name: 'App',
   components: {
-    TaskList
+    TaskList,
   },
   data: function(){
     return {
-      microscopeURL: "http://orange-and-pink.local:5000/"
+      microscopeURL: "http://microscope.local:5000/",
+      refreshInterval: 500,
+      maxTasks: 5,
     }
   },
   computed: {
     tasksEndpointURL: function() {
-      return this.microscopeURL + "/api/v2/tasks/"
+      if(this.microscopeURL) return this.microscopeURL + "/api/v2/tasks/"
+      else return ""
+    },
+    refreshIntervalString: {
+      get: function(){ return this.refreshInterval.toString()},
+      set: function(val){ this.refreshInterval = Number(val)},
     }
   },
   methods: {

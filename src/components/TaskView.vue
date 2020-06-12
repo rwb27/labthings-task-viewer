@@ -1,29 +1,36 @@
 <template>
-    <div class="taskview">
+    <li class="taskView">
+        <div class="taskViewFirstLine"  @click="expanded = !expanded">
         <i class="material-icons text-height-icons" :uk-tooltip="task.status" :title="task.status">{{statusIcon}}</i>
-        <i class="material-icons text-height-icons uk-float-right" @click="expanded = !expanded">
+        <i class="material-icons text-height-icons uk-float-right">
             {{expanded ? "unfold_less" : "unfold_more"}}
         </i>
         <b>Start:</b>{{task.start_time}}
-        <ul class="uk-list" v-if="expanded">
-            <li is="LogLine" 
-                v-for="entry in task.log"
-                :key="task.id + '-log-line-' + entry.created"
-                :entry="entry" />
-        </ul>
-        <div class="task-return-value" v-if="expanded">
-            {{task.showReturnValue}}
         </div>
-    </div>
+        <div class="taskDetails uk-margin-left" v-if="expanded">
+            <h4>Log</h4>
+            <ul class="uk-list uk-list-collapse logList">
+                <li is="LogLine" 
+                    v-for="entry in task.log"
+                    :key="task.id + '-log-line-' + entry.created"
+                    :entry="entry" />
+            </ul>
+            <h4>Return Value</h4>
+            <tree-view :data="task.return" :options="{maxDepth: 1}"></tree-view>
+        </div>
+    </li>
 </template>
 
 <script>
 import LogLine from "./LogLine.vue"
+import TreeView from "vue-json-tree-view"
+import Vue from "vue"
+Vue.use(TreeView) // I don't know why I can't just put TreeView in components
 
 export default {
     name: "TaskView",
     components: {
-        LogLine
+        LogLine,
     },
     props: {
         task: {type: Object}
