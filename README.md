@@ -1,5 +1,7 @@
 # labthings-task-viewer
 
+An interactive widget to show the output of tasks running on a LabThing.
+
 ## Project setup
 ```
 npm install
