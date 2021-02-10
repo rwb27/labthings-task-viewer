@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     tasksEndpointURL: function() {
-      if(this.microscopeURL) return this.microscopeURL + "/api/v2/tasks/"
+      if(this.microscopeURL) return this.microscopeURL + "/api/v2/actions/"
       else return ""
     },
     refreshIntervalString: {

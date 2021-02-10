@@ -1,7 +1,7 @@
 <template>
     <li class="logline uk-margin-left" 
         :class="{'expanded': expanded, 'oneline': !expanded}"
-        @click="expanded = !expanded" >
+        @dblclick="expanded = !expanded" >
         <i  class="material-icons text-height-icons" 
             :uk-tooltip="entry.levelname" 
             :title="entry.levelname">

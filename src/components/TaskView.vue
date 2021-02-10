@@ -5,7 +5,7 @@
         <i class="material-icons text-height-icons uk-float-right">
             {{expanded ? "unfold_less" : "unfold_more"}}
         </i>
-        <b>Start:</b>{{task.start_time}}
+        <b>Start:</b>{{task.timeRequested}}
         </div>
         <div class="taskDetails uk-margin-left" v-if="expanded">
             <h4>Log</h4>
@@ -43,14 +43,16 @@ export default {
     computed: {
         statusIcon: function() {
             switch(this.task.status){
-                case "success":
+                case "completed":
                     return "check_circle"
-                case "idle":
+                case "pending":
                     return "hourglass_empty"
                 case "running":
                     return "hourglass_full"
                 case "error":
                     return "error"
+                case "cancelled":
+                    return "cancel"
                 default:
                     return "help"
             }
