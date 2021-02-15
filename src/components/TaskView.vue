@@ -5,9 +5,10 @@
         <i class="material-icons text-height-icons uk-float-right">
             {{expanded ? "unfold_less" : "unfold_more"}}
         </i>
-        <b>Start:</b>{{task.timeRequested}}
+        {{task.action}}
         </div>
         <div class="taskDetails uk-margin-left" v-if="expanded">
+            <b>Start:</b>{{task.timeRequested}}
             <h4>Log</h4>
             <ul class="uk-list uk-list-collapse logList">
                 <li is="LogLine" 
@@ -16,7 +17,7 @@
                     :entry="entry" />
             </ul>
             <h4>Return Value</h4>
-            <tree-view :data="task.return" :options="{maxDepth: 1}"></tree-view>
+            <tree-view :data="task.output" :options="{maxDepth: 1}"></tree-view>
         </div>
     </li>
 </template>
